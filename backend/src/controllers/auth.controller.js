@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
-import { userSchema } from "../lib/utils/types.js";
+import { userSchema, loginSchema } from "../lib/utils/types.js";
 import { generateToken } from "../lib/utils/tokenGen.js";
 import cloudinary from "../lib/cloudinary.js";
 
@@ -82,7 +82,7 @@ export const login = async (req, res) => {
             });
         }
 
-        const result = userSchema.safeParse({ fullName, email, password });
+        const result = loginSchema.safeParse({ email, password });
         if (!result.success) {
             return res.status(400).json({
                 message: `Error-${result.error.issues[0].message}`,
