@@ -1,0 +1,1 @@
+export const THEMES=["dark","light","synthwave","black","night","dracula","cyberpunk","abyss","valentine","coffee","acid","corporate"];
