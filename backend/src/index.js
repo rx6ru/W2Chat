@@ -6,11 +6,14 @@ import authRoutes from "./routes/auth.route.js"
 import messageRoutes from "./routes/message.route.js"
 import Cors from "cors"
 
+import {app, server} from "./lib/socket.js" 
+
 import Morgan from "morgan"
 
 dotenv.config();
 
-const app = express();
+
+
 const PORT = process.env.PORT
 app.use(Morgan("dev"))
 app.use(express.json())
@@ -25,7 +28,7 @@ app.use(Cors(
 app.use("/api/auth", authRoutes)
 app.use("/api/messages", messageRoutes)
 
-app.listen(PORT, async () => {
+server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   connectDB();
 

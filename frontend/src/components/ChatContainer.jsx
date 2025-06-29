@@ -1,18 +1,29 @@
 import { useAuthStore } from "../store/useAuthStore";
-import { useChatStore } from "../store/useChatStore";
-import { useEffect} from "react";
+import { useChatStore} from "../store/useChatStore";
+import { useEffect, useRef} from "react";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
 import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
-  const { messages, getMessages, isMessagesLoading, selectedUser } = useChatStore();
+  const { messages, getMessages, isMessagesLoading, selectedUser, subscribeToMessages, unsubscribeFromMessages} = useChatStore();
   const { authUser } = useAuthStore();
+  const messageEndRef = useRef(null);
+
 
   useEffect(() => {
     getMessages(selectedUser._id);
-  }, [selectedUser._id, getMessages]);
+    subscribeToMessages();
+
+    return () => unsubscribeFromMessages();
+  }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
+
+  useEffect(() => {
+    if(messageEndRef.current && messages){
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   if (isMessagesLoading) {
     return (
@@ -24,6 +35,8 @@ const ChatContainer = () => {
     );
   }
 
+
+
   return (
     <div className="flex flex-col flex-1 overflow-auto">
       <ChatHeader />
@@ -32,8 +45,7 @@ const ChatContainer = () => {
         {messages.map((message) => (
           <div
             key={message._id}
-            className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
-            // ref={messageEndRef}
+            className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`} 
           >
             <div className=" chat-image avatar">
               <div className="p-1 border rounded-full size-10">
@@ -58,11 +70,14 @@ const ChatContainer = () => {
               {message.text && <p>{message.text}</p>}
             </div>
             <div className="mt-1 chat-footer">
-              <time className="ml-1 text-xs opacity-50">
+              <time ref={messageEndRef}  className="ml-1 text-xs opacity-50">
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
+
           </div>
+
+          
         ))}
       </div>
 

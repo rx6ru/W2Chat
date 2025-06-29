@@ -28,7 +28,7 @@ const MessageInput = () => {
     };
   }
 
-  const removeImage = (e) => {
+  const removeImage = () => {
     setImagePreview(null);
     if(fileInputRef.current){
       fileInputRef.current.value = null;
