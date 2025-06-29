@@ -18,7 +18,7 @@ W2Chat is a simple full-stack lightweight single-circle real-time chat applicati
 *   **Database:** MongoDB (with Mongoose)
 *   **Authentication:** JWT (JSON Web Tokens)
 *   **Real-time Communication:** Socket.IO
-*   **Image Storage:** Cloudinary
+*   **Image Storage:** ImageKit.io
 *   **Other Libraries:** bcryptjs, cookie-parser, cors, dotenv, morgan, zod
 
 ### Frontend
