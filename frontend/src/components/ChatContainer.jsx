@@ -11,6 +11,12 @@ const ChatContainer = () => {
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
+  // Function to scroll to bottom
+  const scrollToBottom = () => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     getMessages(selectedUser._id);
@@ -20,8 +26,9 @@ const ChatContainer = () => {
   }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
-    if(messageEndRef.current && messages){
-      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages && messages.length > 0) {
+      // Add a small delay to ensure images are loaded
+      setTimeout(scrollToBottom, 100);
     }
   }, [messages]);
 
@@ -35,8 +42,6 @@ const ChatContainer = () => {
     );
   }
 
-
-
   return (
     <div className="flex flex-col flex-1 overflow-auto">
       <ChatHeader />
@@ -47,7 +52,7 @@ const ChatContainer = () => {
             key={message._id}
             className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`} 
           >
-            <div className=" chat-image avatar">
+            <div className="chat-image avatar">
               <div className="p-1 border rounded-full size-10">
                 <img
                   src={
@@ -65,20 +70,20 @@ const ChatContainer = () => {
                   src={message.image}
                   alt="Attachment"
                   className="sm:max-w-[200px] rounded-md mb-2"
+                  onLoad={scrollToBottom} // Scroll when image loads
                 />
               )}
               {message.text && <p>{message.text}</p>}
             </div>
             <div className="mt-1 chat-footer">
-              <time ref={messageEndRef}  className="ml-1 text-xs opacity-50">
+              <time className="ml-1 text-xs opacity-50">
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-
           </div>
-
-          
         ))}
+        {/* Empty div to mark the end of messages */}
+        <div ref={messageEndRef} />
       </div>
 
       <MessageInput />
