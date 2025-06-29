@@ -1,6 +1,6 @@
 # W2Chat - Real-time Chat Application
 
-W2Chat is a simple full-stack real-time chat application built with the MERN stack (MongoDB, Express.js, React, Node.js) and Socket.IO.
+W2Chat is a simple full-stack lightweight single-circle real-time chat application built with the MERN stack (MongoDB, Express.js, React, Node.js) and Socket.IO.
 
 ## Features
 
