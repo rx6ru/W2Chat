@@ -1,15 +1,24 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
+import InviteCode from "../models/inviteCode.model.js";
 import { userSchema, loginSchema } from "../lib/utils/types.js";
 import { generateToken } from "../lib/utils/tokenGen.js";
 import cloudinary from "../lib/cloudinary.js";
+import validator from "validator";
+
+//todo: Protect against SQL injection
 
 export const signup = async (req, res) => {
-    const { fullName, email, password } = req.body;
+    let { fullName, email, password, inviteCode } = req.body;
     try {
-        if (!fullName || !email || !password) {
+        // Sanitize invite code and email
+        inviteCode = validator.escape(String(inviteCode || ""));
+        email = validator.normalizeEmail(String(email || ""));
+        fullName = validator.escape(String(fullName || ""));
+
+        if (!fullName || !email || !password || !inviteCode) {
             return res.status(400).json({
-                message: "All fields are required",
+                message: "All fields and invite code are required",
             });
         }
 
@@ -31,6 +40,14 @@ export const signup = async (req, res) => {
         if (user) {
             return res.status(400).json({
                 message: "Email already exists",
+            });
+        }
+
+        // Check invite code in DB
+        const codeDoc = await InviteCode.findOne({ code: inviteCode });
+        if (!codeDoc) {
+            return res.status(400).json({
+                message: "Invalid invite code",
             });
         }
 

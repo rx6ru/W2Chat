@@ -15,9 +15,12 @@ const SideBar = () => {
     getUsers();
   }, [getUsers]);
 
-  const filteredUsers = showOnlineOnly
-    ? users.filter((user) => onlineUsers.includes(user._id))
-    : users;
+const filteredUsers = Array.isArray(users)
+  ? showOnlineOnly
+    ? users.filter((user) => Array.isArray(onlineUsers) && onlineUsers.includes(user._id))
+    : users
+  : [];
+
 
   if (isUserLoading) return <SideBarSkeleton />;
 
@@ -40,7 +43,7 @@ const SideBar = () => {
             <span className="text-sm">Show online only</span>
           </label>
           <span className="text-xs text-zinc-500">
-            ({onlineUsers.length - 1} online)
+            ({Math.max((onlineUsers?.length || 0) - 1, 0)} online)
           </span>
         </div>
       </div>

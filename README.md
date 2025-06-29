@@ -73,6 +73,18 @@ W2Chat is a simple full-stack real-time chat application built with the MERN sta
     NODE_ENV=development
     ```
 
+5.  **Add an invite code to the database:**
+
+    - The app is invite-only. You must add at least one invite code to the `invitecodes` collection in your MongoDB database before users can sign up.
+    - You can do this using MongoDB Compass, the MongoDB shell, or a script.  
+      For example, in the MongoDB shell:
+      ```js
+      use w2chat
+      db.invitecodes.insertOne({ code: "YOUR_INVITE_CODE" })
+      ```
+    - Replace `"YOUR_INVITE_CODE"` with your desired invite code.  
+    - Users will need to enter this code during signup. You can change or add codes at any time; it will only affect new signups.
+
 > **Note:**  
 > Make sure `NODE_ENV` is set to `development` in your `.env` file when running locally. This ensures cookies and other settings work correctly for development. 
 

@@ -38,8 +38,13 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Account created successfully");
       get().connectSocket();
     } catch (error) {
-      console.log("Error in signup", error.message);
-      toast.error("Error in signup");
+      // Extract backend error message if available
+      const msg =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Error in signup";
+      toast.error(msg);
+      console.log("Error in signup", msg);
     } finally {
       set({ isSigningUp: false });
     }

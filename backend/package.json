@@ -22,6 +22,7 @@
     "mongoose": "^8.16.0",
     "morgan": "^1.10.0",
     "socket.io": "^4.8.1",
+    "validator": "^13.15.15",
     "w2chat": "file:..",
     "zod": "^3.25.67"
   },
