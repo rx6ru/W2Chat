@@ -43,17 +43,16 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex flex-col flex-1 overflow-auto">
+    <div className="flex flex-col flex-1 overflow-auto bg-base-100">
       <ChatHeader />
-
       <div className="flex-1 p-4 space-y-4 overflow-y-auto">
         {messages.map((message) => (
           <div
             key={message._id}
-            className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`} 
+            className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
           >
             <div className="chat-image avatar">
-              <div className="p-1 border rounded-full size-10">
+              <div className="object-cover p-1 rounded-full shadow border-1 border-primary size-10">
                 <img
                   src={
                     message.senderId === authUser._id
@@ -64,16 +63,16 @@ const ChatContainer = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col chat-bubble">
+            <div className="flex flex-col shadow chat-bubble rounded-2xl bg-base-200">
               {message.image && (
                 <img
                   src={message.image}
                   alt="Attachment"
                   className="sm:max-w-[200px] rounded-md mb-2"
-                  onLoad={scrollToBottom} // Scroll when image loads
+                  onLoad={scrollToBottom}
                 />
               )}
-              {message.text && <p>{message.text}</p>}
+              {message.text && <p className="font-medium">{message.text}</p>}
             </div>
             <div className="mt-1 chat-footer">
               <time className="ml-1 text-xs opacity-50">
@@ -82,10 +81,8 @@ const ChatContainer = () => {
             </div>
           </div>
         ))}
-        {/* Empty div to mark the end of messages */}
         <div ref={messageEndRef} />
       </div>
-
       <MessageInput />
     </div>
   );
