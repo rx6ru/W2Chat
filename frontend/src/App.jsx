@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import HomePage from './pages/HomePage'
+import ChatPage from './pages/ChatPage'
 import SignUpPage from './pages/SignUpPage'
 import LoginPage from './pages/LoginPage'
 import ThemePage from './pages/ThemePage'
@@ -35,7 +35,7 @@ const App = () => {
       <Navbar />
 
       <Routes>
-        <Route path='/' element={authUser ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path='/' element={authUser ? <ChatPage /> : <Navigate to="/login" />} />
         <Route path='/signup' element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
         <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
         <Route path='/theme' element={<ThemePage />} />
