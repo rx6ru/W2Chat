@@ -3,6 +3,12 @@ import SideBar from "../components/SideBar"
 import EmptyChatContainer from "../components/EmptyChatContainer"
 import ChatContainer from "../components/ChatContainer"
 
+/**
+ * Renders the main chat page layout with a sidebar and chat area.
+ *
+ * Displays a sidebar alongside either an empty chat placeholder or the active chat container, depending on whether a user is selected in the chat store.
+ * @returns {JSX.Element} The chat page component.
+ */
 function ChatPage() {
 
   const {selectedUser} = useChatStore();
