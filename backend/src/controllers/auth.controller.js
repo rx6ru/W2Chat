@@ -13,9 +13,15 @@ export const signup = async (req, res) => {
     try {
         // Sanitize invite code and email
         inviteCode = validator.escape(String(inviteCode || ""));
-        email = validator.normalizeEmail(String(email || ""));
+        email = String(email || "").trim();
         fullName = validator.escape(String(fullName || ""));
 
+        // Validate email format
+        if (!validator.isEmail(email)) {
+            return res.status(400).json({
+                message: "Invalid email format",
+            });
+        }
         if (!fullName || !email || !password || !inviteCode) {
             return res.status(400).json({
                 message: "All fields and invite code are required",
