@@ -1,4 +1,4 @@
-import express from "express"
+import express from "express";
 import { protectRoute } from "../middlewares/auth.middleware.js";
 import { getUsersForSidebar, getMessages, sendMessage } from "../controllers/message.controller.js";
 

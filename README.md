@@ -64,7 +64,7 @@ W2Chat is a simple full-stack lightweight single-circle real-time chat applicati
 4.  **Create a `.env` file in the `backend` directory and add the following environment variables:**
 
     ```
-    PORT=3000
+    PORT=5001
     MONGODB_URI=<your_mongodb_uri>
     JWT_SECRET=<your_jwt_secret>
     CLOUDINARY_CLOUD_NAME=<your_cloudinary_cloud_name>
