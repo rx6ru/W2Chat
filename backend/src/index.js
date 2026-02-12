@@ -8,7 +8,7 @@ import Cors from "cors"
 
 import path from "path"
 
-import {app, server} from "./lib/socket.js" 
+import { app, server } from "./lib/socket.js"
 
 import Morgan from "morgan"
 
@@ -26,6 +26,10 @@ app.use(Cors(
     credentials: true
   }
 ))
+
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
 
 app.use("/api/auth", authRoutes)
 app.use("/api/messages", messageRoutes)
