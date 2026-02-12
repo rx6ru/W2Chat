@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser"
 import authRoutes from "./routes/auth.route.js"
 import messageRoutes from "./routes/message.route.js"
 import Cors from "cors"
+import helmet from "helmet"
+import { authLimiter, apiLimiter } from "./middlewares/rateLimit.middleware.js"
 
 import path from "path"
 
@@ -17,8 +19,9 @@ dotenv.config();
 const PORT = process.env.PORT
 const __dirname = path.resolve();
 
+app.use(helmet());
 app.use(Morgan("dev"))
-app.use(express.json())
+app.use(express.json({ limit: "10mb" })); // Limit payload size to prevent DoS
 app.use(cookieParser())
 app.use(Cors(
   {
@@ -26,6 +29,10 @@ app.use(Cors(
     credentials: true
   }
 ))
+
+// Apply limits
+app.use("/api/", apiLimiter);
+app.use("/api/auth", authLimiter);
 
 app.get("/health", (req, res) => {
   res.status(200).send("OK");

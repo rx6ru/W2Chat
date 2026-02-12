@@ -24,11 +24,11 @@ const SideBar = () => {
   if (isUserLoading) return <SideBarSkeleton />;
 
   return (
-    <aside className="flex flex-col w-20 h-full transition-all duration-200 border-r lg:w-72 border-base-300 bg-base-100">
-      <div className="w-full p-5 border-b border-base-300">
+    <aside className="flex flex-col w-20 h-full transition-all duration-200 border-r lg:w-72 border-base-200 bg-base-100">
+      <div className="w-full p-5 border-b border-base-200">
         <div className="flex items-center gap-2">
           <Users className="size-6 text-primary" />
-          <span className="hidden font-semibold tracking-wide lg:block text-base-content">Contacts</span>
+          <span className="hidden font-medium tracking-tight lg:block text-base-content">Contacts</span>
         </div>
         <div className="items-center hidden gap-2 mt-3 lg:flex">
           <label className="flex items-center gap-2 cursor-pointer">
@@ -36,11 +36,11 @@ const SideBar = () => {
               type="checkbox"
               checked={showOnlineOnly}
               onChange={(e) => setShowOnlineOnly(e.target.checked)}
-              className="checkbox checkbox-sm"
+              className="checkbox checkbox-sm checkbox-primary"
             />
-            <span className="text-sm">Show online only</span>
+            <span className="text-sm text-base-content/70">Show online only</span>
           </label>
-          <span className="text-xs text-zinc-500">
+          <span className="text-xs text-base-content/40">
             ({Math.max((onlineUsers?.length || 0) - 1, 0)} online)
           </span>
         </div>
@@ -52,11 +52,10 @@ const SideBar = () => {
             onClick={() => setSelectedUser(user)}
             className={`
               w-full p-3 flex items-center gap-3 rounded-xl
-              hover:bg-primary/10 transition-colors
-              ${
-                selectedUser?._id === user._id
-                  ? "bg-primary/10 ring-1 ring-primary"
-                  : ""
+              hover:bg-base-200 transition-colors
+              ${selectedUser?._id === user._id
+                ? "bg-base-200 ring-1 ring-base-300"
+                : ""
               }
             `}
           >
@@ -64,22 +63,22 @@ const SideBar = () => {
               <img
                 src={user.profilePic || "/user.png"}
                 alt={user.name}
-                className="object-cover p-0.5 rounded-full shadow border-1 size-12 border-primary"
+                className="object-cover p-0.5 rounded-full shadow-sm border border-base-300 size-12"
               />
               {onlineUsers.includes(user._id) && (
                 <span className="absolute bottom-0 right-0 bg-green-500 rounded-full size-3 ring-2 ring-base-100" />
               )}
             </div>
             <div className="hidden min-w-0 text-left lg:block">
-              <div className="font-semibold truncate text-base-content">{user.fullName}</div>
-              <div className={`text-xs ${onlineUsers.includes(user._id) ? "text-green-500" : "text-zinc-400"}`}>
+              <div className="font-medium truncate text-base-content">{user.fullName}</div>
+              <div className={`text-xs ${onlineUsers.includes(user._id) ? "text-green-500" : "text-base-content/40"}`}>
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>
             </div>
           </button>
         ))}
         {filteredUsers.length === 0 && (
-          <div className="py-4 text-center text-zinc-500">No online users</div>
+          <div className="py-4 text-center text-base-content/40">No online users</div>
         )}
       </div>
     </aside>
