@@ -13,8 +13,15 @@ export const signup = async (req, res) => {
     try {
         // Sanitize invite code and email
         inviteCode = validator.escape(String(inviteCode || ""));
-        email = validator.normalizeEmail(String(email || ""));
+        email = String(email || "").trim(); // Fix normalization bug
         fullName = validator.escape(String(fullName || ""));
+
+        // Validate email format
+        if (!validator.isEmail(email)) {
+            return res.status(400).json({
+                message: "Invalid email format",
+            });
+        }
 
         if (!fullName || !email || !password || !inviteCode) {
             return res.status(400).json({
@@ -150,26 +157,26 @@ export const logout = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
     try {
-        const {profilePic} = req.body;
-        const userId=req.user._id;
+        const { profilePic } = req.body;
+        const userId = req.user._id;
 
-        if(!profilePic) {
+        if (!profilePic) {
             return res.status(400).json({
                 message: "Profile picture is required",
             });
-        } 
+        }
 
-        const uploadResponse=await cloudinary.uploader.upload(profilePic)
+        const uploadResponse = await cloudinary.uploader.upload(profilePic)
 
-        if(!uploadResponse) {
+        if (!uploadResponse) {
             return res.status(400).json({
                 message: "Profile picture upload failed",
             });
         }
 
-        const updatedUser=await User.findByIdAndUpdate(userId,{profilePic:uploadResponse.secure_url},{new:true});
+        const updatedUser = await User.findByIdAndUpdate(userId, { profilePic: uploadResponse.secure_url }, { new: true });
 
-        if(!updatedUser) {
+        if (!updatedUser) {
             return res.status(400).json({
                 message: "Profile picture update failed",
             });
@@ -185,7 +192,7 @@ export const updateProfile = async (req, res) => {
     }
 }
 
-export const checkAuth = async (req,res) => {
+export const checkAuth = async (req, res) => {
     try {
         res.status(200).json(req.user);
     } catch (error) {

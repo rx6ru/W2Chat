@@ -20,37 +20,37 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 z-40 w-full border-b bg-base-100 border-base-300 backdrop-blur-lg">
-      <div className="container h-16 px-4 mx-auto">
+    <header className="fixed top-0 z-40 w-full border-b bg-base-100/80 border-base-200 backdrop-blur-lg">
+      <div className="container h-16 px-4 mx-auto max-w-7xl">
         <div className="flex items-center justify-between h-full">
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-all">
               <div className="flex items-center justify-center rounded-lg size-9 bg-primary/10">
                 <MessageSquareQuote className="w-5 h-5 text-primary" />
               </div>
-              <h1 className="text-lg font-bold">W2chat</h1>
+              <h1 className="text-lg font-bold tracking-tight">W2chat</h1>
             </Link>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleNavToggle("/theme")}
-              className="gap-2 transition-colors btn btn-sm"
+              className="gap-2 transition-colors btn btn-sm btn-ghost rounded-lg"
             >
               <Blend className="w-4 h-4" />
-              <span className="hidden sm:inline">Themes</span>
+              <span className="hidden sm:inline font-medium">Themes</span>
             </button>
             {authUser && (
               <>
                 <button
                   onClick={() => handleNavToggle("/profile")}
-                  className="gap-2 btn btn-sm"
+                  className="gap-2 btn btn-sm btn-ghost rounded-lg"
                 >
                   <User className="size-5" />
-                  <span className="hidden sm:inline">Profile</span>
+                  <span className="hidden sm:inline font-medium">Profile</span>
                 </button>
-                <button className="flex items-center gap-2" onClick={logout}>
+                <button className="flex items-center gap-2 btn btn-sm btn-ghost rounded-lg" onClick={logout}>
                   <LogOut className="size-5" />
-                  <span className="hidden sm:inline">Logout</span>
+                  <span className="hidden sm:inline font-medium">Logout</span>
                 </button>
               </>
             )}
